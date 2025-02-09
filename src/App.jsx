@@ -8,6 +8,7 @@ function App() {
   const [isEdit, setIsEdit] = useState(false);
 
   const addTodo = () => {
+    if (todo === "") return;
     if (index != null) {
       lists[index] = todo;
     } else {
@@ -39,7 +40,7 @@ function App() {
           onChange={(e) => setTodo(e.target.value)}
         />
         <button
-          className="rounded-md w-15 bg-green-500 text-white"
+          className="rounded-md w-15 bg-green-500 text-white cursor-pointer"
           type="button"
           onClick={addTodo}
         >
@@ -66,13 +67,13 @@ function App() {
                   <td class="border border-gray-300 ">{e}</td>
                   <td class="border border-gray-300 p-2">
                     <button
-                      className="rounded-md w-15 bg-yellow-500 text-white"
+                      className="rounded-md w-15 bg-yellow-500 text-white cursor-pointer"
                       onClick={() => editTodo(e)}
                     >
                       Edit
                     </button>{" "}
                     <button
-                      className="rounded-md w-15 bg-red-500 text-white"
+                      className="rounded-md w-15 bg-red-500 text-white cursor-pointer"
                       onClick={() => deleteTodo(e)}
                     >
                       Delete
