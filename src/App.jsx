@@ -10,13 +10,16 @@ function App() {
   const addTodo = () => {
     if (todo === "") return;
     if (index != null) {
+      console.log(1);
       lists[index] = todo;
     } else {
+      console.log(2);
       const newData = [...lists, todo];
       setLists(newData);
     }
     setTodo("");
     setIsEdit(false);
+    setIndex(null);
   };
 
   const editTodo = (data) => {
@@ -54,18 +57,18 @@ function App() {
       </div>
       <div className="list mb-5">
         <ul className="list-disc">
-          <table class="border-collapse border border-gray-400 ...">
+          <table className="border-collapse border border-gray-400 ...">
             <thead>
               <tr>
-                <th class="border border-gray-300 w-50">Todo</th>
-                <th class="border border-gray-300 ">Action</th>
+                <th className="border border-gray-300 w-50">Todo</th>
+                <th className="border border-gray-300 ">Action</th>
               </tr>
             </thead>
             <tbody>
               {lists.map((e, i) => (
-                <tr>
-                  <td class="border border-gray-300 ">{e}</td>
-                  <td class="border border-gray-300 p-2">
+                <tr key={i}>
+                  <td className="border border-gray-300 ">{e}</td>
+                  <td className="border border-gray-300 p-2">
                     <button
                       className="rounded-md w-15 bg-yellow-500 text-white cursor-pointer"
                       onClick={() => editTodo(e)}
