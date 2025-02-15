@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -13,16 +13,18 @@ function App() {
     if (index != null) {
       lists[index] = todo;
     } else {
-      const newData = [...lists, { todo: todo, status: false }];
-      setLists(newData);
+      setLists([...lists, { todo: todo, status: "Progess" }]);
     }
     setTodo("");
     setIndex(null);
   };
 
+  useEffect(() => {
+    console.log(lists);
+  }, [lists]);
+
   const editTodo = (data) => {
-    const newEditData = lists.findIndex((e) => e === data);
-    setIndex(newEditData);
+    setIndex(lists.findIndex((e) => e === data));
     setTempTodo(data);
     setIsUpdate(true);
   };
@@ -34,7 +36,13 @@ function App() {
   };
 
   const handleChangeTodo = (data) => {
-    setTempTodo((prev) => ({ ...prev, todo: data.target.value }));
+    setTempTodo((prev) => ({
+      ...prev,
+      todo: data.target.value,
+    }));
+  };
+  const handleChangeStatus = (data) => {
+    setTempTodo((prev) => ({ ...prev, status: data.target.value }));
   };
   const deleteTodo = (data) => {
     setLists((prev) => prev.filter((e) => e != data));
@@ -45,7 +53,7 @@ function App() {
       <div className="input flex gap-3 mb-5">
         <input
           type="text"
-          className="border-b-2 outline-0"
+          className="border-b-1 outline-0"
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
         />
@@ -64,12 +72,12 @@ function App() {
       </div>
       <div className="list mb-5">
         <ul className="list-disc">
-          <table className="border-collapse border border-gray-400 ...">
+          <table className="border-collapse  border-gray-400 ...">
             <thead>
               <tr>
-                <th className="border border-gray-300 w-50">Todo</th>
-                <th className="border border-gray-300 w-50">Status</th>
-                <th className="border border-gray-300 w-50">Action</th>
+                <th className=" border-gray-300 w-50">Todo</th>
+                <th className=" border-gray-300 w-50">Status</th>
+                <th className=" border-gray-300 w-50">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -79,7 +87,7 @@ function App() {
                     {isUpdate && index === i ? (
                       <input
                         type="text"
-                        className="border-b-2 outline-0"
+                        className="border-b-1 outline-0"
                         value={tempTodo.todo}
                         onChange={handleChangeTodo}
                       />
@@ -87,7 +95,38 @@ function App() {
                       e.todo
                     )}
                   </td>
-                  <td className="border border-gray-300 ">{e.status}</td>
+                  <td className="border border-gray-300 ">
+                    <div>
+                      {isUpdate && index === i ? (
+                        <select
+                          className="bg-gray-50 border-b-1 outline-0"
+                          value={tempTodo.status}
+                          onChange={handleChangeStatus}
+                        >
+                          <option
+                            value="Progress"
+                            selected={e.status === tempTodo.status}
+                          >
+                            Progress
+                          </option>
+                          <option
+                            value="Cancel"
+                            selected={e.status === tempTodo.status}
+                          >
+                            Cancel
+                          </option>
+                          <option
+                            value="Done"
+                            selected={e.status === tempTodo.status}
+                          >
+                            Done
+                          </option>
+                        </select>
+                      ) : (
+                        e.status
+                      )}
+                    </div>
+                  </td>
                   <td className="border border-gray-300 p-2">
                     <div className="action">
                       {isUpdate && index === i ? (
